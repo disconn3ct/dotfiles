@@ -18,7 +18,7 @@ set backspace=indent,eol,start
 " Optimize for fast terminal connections
 set ttyfast
 " Add the g flag to search/replace by default
-set gdefault
+" set gdefault
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 " Change mapleader
@@ -47,7 +47,7 @@ set number
 " Enable syntax highlighting
 syntax on
 " Highlight current line
-set cursorline
+" set cursorline
 " Make tabs as wide as two spaces
 set tabstop=2
 " Show “invisible” characters
@@ -66,7 +66,7 @@ set mouse=a
 " Disable error bells
 set noerrorbells
 " Don’t reset cursor to start of line when moving around.
-set nostartofline
+" set nostartofline
 " Show the cursor position
 set ruler
 " Don’t show the intro message when starting Vim
