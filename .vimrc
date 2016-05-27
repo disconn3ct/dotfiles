@@ -24,8 +24,8 @@ set encoding=utf-8 nobomb
 " Change mapleader
 let mapleader=","
 " Don’t add empty newlines at the end of files
-set binary
-set noeol
+" set binary
+" set noeol
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
@@ -82,8 +82,8 @@ set showcmd
 " 	set relativenumber
 " 	au BufReadPost * set relativenumber
 " endif
-" Start scrolling three lines before the horizontal window border
-set scrolloff=3
+" Start scrolling four lines before the horizontal window border
+set scrolloff=4
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
@@ -106,7 +106,7 @@ if has("autocmd")
 	" Treat .md files as Markdown
 	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
-" 
+"
 execute pathogen#infect()
 filetype plugin indent on
 " Generate help on each launch. I'm a glutton for punishment.
