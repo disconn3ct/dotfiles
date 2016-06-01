@@ -3,6 +3,7 @@
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin master;
+git submodule update --init
 BACKDIR=~/dotfile-bak/$(date -Iminutes)
 
 function doIt() {

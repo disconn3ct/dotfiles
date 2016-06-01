@@ -3,6 +3,8 @@
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin master;
+# Pull in vim modules
+git submodule update --init
 
 function doIt() {
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
