@@ -2,6 +2,8 @@
 
 if [ -f /usr/local/share/liquidprompt ]; then
 				. /usr/local/share/liquidprompt
+elif [ -f ~/.liquidprompt/liquidprompt ]; then
+				. ~/.liquidprompt/liquidprompt
 else
 				# Shell prompt based on the Solarized Dark theme.
 				# Screenshot: http://i.imgur.com/EkEtphC.png
