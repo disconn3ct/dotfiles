@@ -10,7 +10,8 @@ function doIt() {
   mkdir -p "${BACKDIR}"
 	rsync -b --backup-dir "${BACKDIR}" \
 		--exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
-		--exclude "README.md" --exclude "LICENSE-MIT.txt" -avh --no-perms . ~;
+		--exclude "update.sh" --exclude "README.md" --exclude "LICENSE-MIT.txt" \
+		-avh --no-perms . ~;
 	source ~/.bash_profile;
 }
 
