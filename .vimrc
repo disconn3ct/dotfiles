@@ -1,3 +1,8 @@
+" Mouse support
+if has('mouse_sgr')
+	set ttymouse=sgr
+endif
+
 " Use the Solarized Dark theme
 " set background=dark
 " colorscheme solarized
@@ -8,7 +13,8 @@ colorscheme elflord
 " Make Vim more useful
 set nocompatible
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
-set clipboard=unnamed
+" This is really annoying...
+" set clipboard=unnamed
 " Enhance command-line completion
 set wildmenu
 " Allow cursor keys in insert mode
