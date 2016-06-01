@@ -25,6 +25,14 @@ else # OS X `ls`
 	colorflag="-G"
 fi
 
+# Pretty df
+alias df='df -h'
+
+# Don't automatically overwrite stuff
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
 
