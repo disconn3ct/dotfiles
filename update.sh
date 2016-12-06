@@ -5,7 +5,8 @@ cd "$(dirname "${BASH_SOURCE}")";
 git pull origin master;
 # Pull in vim modules
 git submodule update --init
-BACKDIR=~/dotfile-bak/$(date -Iminutes)
+BACKDIR=~/dotfile-bak/$(date +'%Y%m%d-%H%M')
+#BACKDIR=~/dotfile-bak/$(date -Iminutes)
 
 function doIt() {
     mkdir -p "${BACKDIR}"
