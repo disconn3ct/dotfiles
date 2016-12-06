@@ -7,8 +7,13 @@ git pull origin master;
 git submodule update --init
 
 function doIt() {
-	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
-    --exclude "update.sh" --exclude "README.md" --exclude "LICENSE-MIT.txt" \
+	rsync --exclude ".git/" \
+		--exclude ".DS_Store" \
+		--exclude ".osx" \
+		--exclude "bootstrap.sh" \
+		--exclude "README.md" \
+		--exclude "LICENSE-MIT.txt" \
+		--exclude "update.sh" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
 }
