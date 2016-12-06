@@ -3,14 +3,20 @@
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin master;
+# Pull in vim modules
 git submodule update --init
 BACKDIR=~/dotfile-bak/$(date -Iminutes)
 
 function doIt() {
-  mkdir -p "${BACKDIR}"
+    mkdir -p "${BACKDIR}"
 	rsync -b --backup-dir "${BACKDIR}" \
-		--exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
-		--exclude "update.sh" --exclude "README.md" --exclude "LICENSE-MIT.txt" \
+	    --exclude ".git/" \
+		--exclude ".DS_Store" \
+		--exclude ".osx" \
+		--exclude "bootstrap.sh" \
+		--exclude "README.md" \
+		--exclude "LICENSE-MIT.txt" \
+		--exclude "update.sh" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
 }
