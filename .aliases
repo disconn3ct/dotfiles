@@ -164,3 +164,88 @@ alias reload="exec $SHELL -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
+
+# Iterm might be installed.
+if [ -f ~/.iterm_shell_integration ]; then
+  source ~/.iterm_shell_integration
+fi
+
+# AWS Shortcuts
+complete -C aws_completer aws
+
+# Get an IP address (with region)
+# Example: awsipr potato us-west-1
+function awsipr {
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+  aws ec2 describe-instances --region "${region}" --filter "Name=tag:Name,Values=*${1}*" --output text --query 'Reservations[*].Instances[*].PublicIpAddress'
+}
+# Get an IP address (default region, multiple addresses possible)
+# Example: awsip webserver-1 webserver-2
+# 1.2.3.4
+# 1.2.3.5
+#
+function awsip {
+  while [ ! -z ${1} ]; do
+    aws ec2 describe-instances --filter "Name=tag:Name,Values=*${1}*" --output text --query 'Reservations[*].Instances[*].PublicIpAddress'
+    shift
+  done
+}
+
+# Reverse of above, find a host by public IP
+function ipaws {
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+  aws ec2 describe-instances --region "${region}" --filter "Name=ip-address,Values=${1}" --output text --query "Reservations[].Instances[].[ Tags[?Key=='Name'].Value | [0], PublicIpAddress ]"
+}
+
+# Get private IP(s)
+function awspip {
+  while [ ! -z ${1} ]; do
+    aws ec2 describe-instances --filter "Name=tag:Name,Values=*${1}*" --output text --query 'Reservations[*].Instances[*].PrivateIpAddress'
+    shift
+  done
+}
+
+function pipaws {
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+  aws ec2 describe-instances --region "${region}" --filter "Name=private-ip-address,Values=${1}" --output text --query "Reservations[].Instances[].[ Tags[?Key=='Name'].Value | [0], PrivateIpAddress ]"
+}
+
+# Get IP and build key
+function awsipkey {
+  while [ ! -z ${1} ]; do
+    aws ec2 describe-instances --filter "Name=tag:Name,Values=*${1}*" --output text --query "Reservations[].Instances[].[ Tags[?Key=='Name'].Value | [0], PublicIpAddress, KeyName ]"
+    shift
+  done
+}
+
+function awssg {
+  # List instances based on SG ID
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+  aws ec2 describe-instances --filter "Name=instance.group-id,Values=${1}" --output text --query "Reservations[].Instances[].[ Tags[?Key=='Name'].Value | [0], PublicIpAddress ]"
+}
+
+function awssgelb {
+  # List elbs based on SG ID
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+  aws elb describe-load-balancers --load-balancer-name "${1}" --output text --query "LoadBalancerDescriptions[].Tags[?Key=='SecurityGroups'].Value | [0]]"
+}
