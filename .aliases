@@ -190,12 +190,29 @@ function awsipr {
 #
 function awsip {
   while [ ! -z ${1} ]; do
-    aws ec2 describe-instances --filter "Name=tag:Name,Values=*${1}*" --output text --query 'Reservations[*].Instances[*].PublicIpAddress'
+    awsipr "${1}" us-east-1 || awsipr "${1}" us-west-2 || awsipr "${1}" us-west-1
     shift
   done
 }
 
-# Reverse of above, find a host by public IP
+# Get IP and name
+function awsipnamer {
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+	aws ec2 describe-instances --region "${region}" --filter "Name=tag:Name,Values=*${1}*" --output text --query "Reservations[].Instances[].[ Tags[?Key=='Name'].Value | [0], PublicIpAddress ]"
+}
+
+function awsipname {
+  while [ ! -z ${1} ]; do
+    awsipnamer "${1}" us-east-1 || awsipnamer "${1}" us-west-2 || awsipnamer "${1}" us-west-1
+		shift
+	done
+}
+
+# Reverse of awsip, find a host by public IP
 function ipaws {
   if [ -z "${2}" ]; then
     region='us-east-1'
@@ -206,9 +223,31 @@ function ipaws {
 }
 
 # Get private IP(s)
+function awspipr {
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+	aws ec2 describe-instances --region "${region}" --filter "Name=tag:Name,Values=*${1}*" --output text --query 'Reservations[*].Instances[*].PrivateIpAddress'
+}
 function awspip {
   while [ ! -z ${1} ]; do
-    aws ec2 describe-instances --filter "Name=tag:Name,Values=*${1}*" --output text --query 'Reservations[*].Instances[*].PrivateIpAddress'
+    awspipr "${1}" us-east-1 || awspipr "${1}" us-west-2 || awspipr "${1}" us-west-1
+    shift
+  done
+}
+function awspipnamer {
+  if [ -z "${2}" ]; then
+    region='us-east-1'
+  else
+    region="${2}"
+  fi
+	aws ec2 describe-instances --region "${region}" --filter "Name=tag:Name,Values=*${1}*" --output text --query "Reservations[*].Instances[].[ Tags[?Key=='Name'].Value | [0], PrivateIpAddress ]"
+}
+function awspipname {
+  while [ ! -z ${1} ]; do
+    awspipnamer "${1}" us-east-1 || awspipnamer "${1}" us-west-2 || awspipnamer "${1}" us-west-1
     shift
   done
 }
@@ -237,7 +276,7 @@ function awssg {
   else
     region="${2}"
   fi
-  aws ec2 describe-instances --filter "Name=instance.group-id,Values=${1}" --output text --query "Reservations[].Instances[].[ Tags[?Key=='Name'].Value | [0], PublicIpAddress ]"
+  aws ec2 describe-instances --region "${region}" --filter "Name=instance.group-id,Values=${1}" --output text --query "Reservations[].Instances[].[ Tags[?Key=='Name'].Value | [0], PublicIpAddress ]"
 }
 
 function awssgelb {

@@ -56,6 +56,8 @@ syntax on
 " set cursorline
 " Make tabs as wide as two spaces
 set tabstop=2
+" And default to that for shiftwidth
+set shiftwidth=2
 " Show “invisible” characters
 " set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 " set list
@@ -90,6 +92,8 @@ set showcmd
 " endif
 " Start scrolling four lines before the horizontal window border
 set scrolloff=4
+" Stop inserting millions of tabs!
+set expandtab
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
