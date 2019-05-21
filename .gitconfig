@@ -1,8 +1,15 @@
+[push]
+	default = matching
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
 # This is Git's per-user configuration file.
 [filter "lfs"]
-	smudge = git-lfs smudge %f
+	smudge = git-lfs smudge -- %f
 	required = true
-	clean = git-lfs clean %f
+  clean = git-lfs clean -- %f
+  process = git-lfs filter-process
 [alias]
 
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
@@ -80,6 +87,7 @@
 			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
 		fi \
 	}; f"
+  up = pull --rebase --autostash
 
 [apply]
 
@@ -131,9 +139,8 @@
 	untracked = cyan
 
 [commit]
-
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	#gpgsign = true
+	gpgsign = true
 
 [diff]
 
@@ -184,4 +191,7 @@
 
 [url "git://gist.github.com/"]
 
-	insteadOf = "gist:"
+  insteadOf = "gist:"
+
+[sequence]
+  editor = interactive-rebase-tool
