@@ -11,6 +11,8 @@ BACKDIR=~/dotfile-bak/$(date +'%Y%m%d-%H%M')
 function fakeIt() {
   rsync -b --backup-dir "${BACKDIR}" \
     --exclude ".git/" \
+    --exclude ".vim/swaps/" \
+    --exclude ".vim/backups/" \
     --exclude ".DS_Store" \
     --exclude ".osx" \
     --exclude "bootstrap.sh" \
@@ -25,6 +27,8 @@ function doIt() {
   mkdir -p "${BACKDIR}"
   rsync -b --backup-dir "${BACKDIR}" \
     --exclude ".git/" \
+    --exclude ".vim/swaps/" \
+    --exclude ".vim/backups/" \
     --exclude ".DS_Store" \
     --exclude ".osx" \
     --exclude "bootstrap.sh" \
