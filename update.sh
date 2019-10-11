@@ -6,7 +6,6 @@ cd "$(dirname "${BASH_SOURCE}")";
 # Pull in vim modules
 #git submodule update --init
 BACKDIR=~/dotfile-bak/$(date +'%Y%m%d-%H%M')
-#BACKDIR=~/dotfile-bak/$(date -Iminutes)
 
 function fakeIt() {
   rsync -b --backup-dir "${BACKDIR}" \
