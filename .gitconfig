@@ -1,3 +1,7 @@
+[user]
+	email = 397465+disconn3ct@users.noreply.github.com
+	name = Disconn3ct
+	signingkey = 0x38E21A08EB831E28
 [push]
 	default = matching
 [filter "media"]
@@ -6,10 +10,9 @@
 	smudge = git media smudge %f
 # This is Git's per-user configuration file.
 [filter "lfs"]
-	smudge = git-lfs smudge -- %f
+	smudge = git-lfs smudge %f
 	required = true
-  clean = git-lfs clean -- %f
-  process = git-lfs filter-process
+	clean = git-lfs clean %f
 [alias]
 
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
@@ -87,7 +90,7 @@
 			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
 		fi \
 	}; f"
-  up = pull --rebase --autostash
+	up = pull --rebase --autostash
 
 [apply]
 
@@ -191,7 +194,4 @@
 
 [url "git://gist.github.com/"]
 
-  insteadOf = "gist:"
-
-[sequence]
-  editor = interactive-rebase-tool
+	insteadOf = "gist:"

@@ -126,3 +126,5 @@ execute pathogen#infect()
 filetype plugin indent on
 " Generate help on each launch. I'm a glutton for punishment.
 Helptags
+
+set rtp+=/usr/local/opt/fzf
