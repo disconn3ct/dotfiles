@@ -14,3 +14,6 @@ set -g LSB_SYSTEM (uname -s)
 
 # exclude ls, df
 set -g grc_plugin_execs cat cvs diff dig gcc g++ ifconfig make mount mtr netstat ping ps tail traceroute wdiff
+
+# For the AWS fucntions
+set -g AWS_REGION_SEARCH "us-west-2" "us-east-2" "us-east-1"
