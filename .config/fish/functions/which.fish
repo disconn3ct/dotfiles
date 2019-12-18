@@ -1,4 +1,4 @@
-command which -s ls > /dev/null 2> /dev/null
+command which -s ls >/dev/null 2>/dev/null
 or function which --description "locate a program file in the user's path"
     if test $argv[1] = "-s"
         if test -n $argv[2]
