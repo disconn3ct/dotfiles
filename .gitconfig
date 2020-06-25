@@ -10,9 +10,10 @@
 	smudge = git media smudge %f
 # This is Git's per-user configuration file.
 [filter "lfs"]
-	smudge = git-lfs smudge %f
+	smudge = git-lfs smudge -- %f
 	required = true
-	clean = git-lfs clean %f
+	clean = git-lfs clean -- %f
+	process = git-lfs filter-process
 [alias]
 
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
@@ -146,7 +147,6 @@
 	gpgsign = true
 
 [diff]
-
 	# Detect copies as well as renames
 	renames = copies
 
