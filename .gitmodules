@@ -25,3 +25,6 @@
 [submodule "liquidprompt"]
 	path = .liquidprompt
 	url = https://github.com/nojhan/liquidprompt.git
+[submodule ".vim/bundle/vim-fish"]
+	path = .vim/bundle/vim-fish
+	url = https://github.com/dag/vim-fish.git
