@@ -15,5 +15,18 @@ set -g LSB_SYSTEM (uname -s)
 # exclude ls, df
 set -g grc_plugin_execs cat cvs diff dig gcc g++ ifconfig make mount mtr netstat ping ps tail traceroute wdiff
 
-# For the AWS fucntions
+# For the AWS functions
 set -g AWS_REGION_SEARCH "us-west-2" "us-east-2" "us-east-1"
+
+if not [ -d "$HOME/.vim/swaps" ]
+  mkdir "$HOME/.vim/swaps"
+end
+
+if not [ -d "$HOME/.vim/backups" ]
+  mkdir "$HOME/.vim/backups"
+end
+
+# Chromebook linux
+if [ "$hostname" = "penguin" ]
+ xhost +local:all
+end

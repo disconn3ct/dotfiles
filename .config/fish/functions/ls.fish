@@ -11,7 +11,7 @@ end
 and function ls
     if which -s lsd
         # Explicitly use command, not the function defined elsewhere
-        command lsd -a $argv
+        command lsd --icon-theme unicode -a $argv
     else
         if type -q grcc.wrap
             set -l executable ls
