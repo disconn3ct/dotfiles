@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "${BASH_SOURCE}")";
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
-#git pull origin master;
-# Pull in vim modules
-#git submodule update --init
 BACKDIR=~/dotfile-bak/$(date +'%Y%m%d-%H%M')
 
 function fakeIt() {
@@ -35,19 +32,20 @@ function doIt() {
     --exclude "LICENSE-MIT.txt" \
     --exclude "update.sh" \
     -avh --no-perms . ~;
+  # shellcheck source=./.bash_profile
   source ~/.bash_profile;
 }
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
+if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
   doIt;
-elif [ "$1" == "--noop" -o "$1" == "-n" ]; then
+elif [ "$1" == "--noop" ] || [ "$1" == "-n" ]; then
   fakeIt;
 else
-  read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+  read -rp "This may overwrite existing files in your home directory. Backups will be saved to ${BACKUPDIR}. Proceed? (y/n) " -n 1;
   echo "";
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     doIt;
-    echo "Backups (if needed) are saved to ${BACKDIR}"
+    echo "Backups (if available) were saved to ${BACKDIR}"
   fi;
 fi;
 unset doIt;
