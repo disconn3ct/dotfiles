@@ -5,6 +5,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 BACKDIR=~/dotfile-bak/$(date +'%Y%m%d-%H%M')
 
 function fakeIt() {
+  # Explicitly ignores -t because time is relative
   rsync -b --backup-dir "${BACKDIR}" \
     --exclude ".git/" \
     --exclude ".vim/swaps/" \
@@ -16,10 +17,12 @@ function fakeIt() {
     --exclude "LICENSE-MIT.txt" \
     --exclude "update.sh" \
     --dry-run \
-    -avh --no-perms . ~;
+    -rlpgoD -vh --no-perms . ~
 }
 
 function doIt() {
+  # Explicitly ignores -t because time is relative and
+  # its not useful to back up identical files over a timestamp
   mkdir -p "${BACKDIR}"
   rsync -b --backup-dir "${BACKDIR}" \
     --exclude ".git/" \
@@ -31,22 +34,22 @@ function doIt() {
     --exclude "README.md" \
     --exclude "LICENSE-MIT.txt" \
     --exclude "update.sh" \
-    -avh --no-perms . ~;
+    -rlpgoD -vh --no-perms . ~
   # shellcheck source=./.bash_profile
-  source ~/.bash_profile;
+  source ~/.bash_profile
 }
 
 if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
-  doIt;
+  doIt
 elif [ "$1" == "--noop" ] || [ "$1" == "-n" ]; then
-  fakeIt;
+  fakeIt
 else
-  read -rp "This may overwrite existing files in your home directory. Backups will be saved to ${BACKUPDIR}. Proceed? (y/n) " -n 1;
-  echo "";
+  read -rp "This may overwrite existing files in your home directory. Backups will be saved to ${BACKUPDIR}. Proceed? (y/n) " -n 1
+  echo ""
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    doIt;
+    doIt
     echo "Backups (if available) were saved to ${BACKDIR}"
-  fi;
-fi;
-unset doIt;
-unset fakeIt;
+  fi
+fi
+unset doIt
+unset fakeIt
