@@ -25,9 +25,9 @@ BINDIR="${HOME}/bin"
 COMPLETIONDIR="${HOME}/.config/fish/completion"
 LARCH=$(dpkg --print-architecture)
 if [ "${LARCH}" == "amd64" ]; then
-  KCARCH="$(uname -m)"
+  ALTARCH="$(uname -m)"
 else
-  KCARCH="${LARCH}"
+  ALTARCH="${LARCH}"
 fi
 
 # Helpers
@@ -72,7 +72,7 @@ mkdir -p "${BINDIR}" "${COMPLETIONDIR}" || true
 if [ ! -x "${BINDIR}/kubecolor" ]; then
   printmsg "======================="
   printmsg "Kubecolor ${KUBECOLOR_VER}"
-  fetch-untgz "https://github.com/hidetatz/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${KCARCH}.tar.gz" "${BINDIR}" kubecolor
+  fetch-untgz "https://github.com/hidetatz/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
 fi
 if [ ! -x "${BINDIR}/argocd" ]; then
   printmsg "======================="
@@ -128,7 +128,7 @@ fi
 if [ ! -x "${BINDIR}/gitops" ]; then
   printmsg "======================="
   printmsg "Gitops ${WEAVE_VER}"
-  fetch-untgz "https://github.com/weaveworks/weave-gitops/releases/latest/download/gitops-linux-${LARCH}.tar.gz" "${BINDIR}" gitops
+  fetch-untgz "https://github.com/weaveworks/weave-gitops/releases/latest/download/gitops-linux-${ALTARCH}.tar.gz" "${BINDIR}" gitops
   if [ ! -f "${COMPLETIONDIR}/gitops" ]; then
     "${BINDIR}/gitops" completion fish >"${COMPLETIONDIR}/gitops.fish"
   fi
@@ -153,3 +153,5 @@ if [ ! -x "${BINDIR}/helm" ]; then
     "${BINDIR}/helm" completion fish >"${COMPLETIONDIR}/helm.fish"
   fi
 fi
+
+./update.sh -f
