@@ -44,7 +44,7 @@ if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
 elif [ "$1" == "--noop" ] || [ "$1" == "-n" ]; then
   fakeIt
 else
-  read -rp "This may overwrite existing files in your home directory. Backups will be saved to ${BACKUPDIR}. Proceed? (y/n) " -n 1
+  read -rp "This may overwrite existing files in your home directory. Backups will be saved to ${BACKDIR}. Proceed? (y/n) " -n 1
   echo ""
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     doIt
