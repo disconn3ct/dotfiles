@@ -20,11 +20,11 @@ set -g grc_plugin_execs cat cvs df diff dig gcc g++ ifconfig ls make mount mtr n
 set -g AWS_REGION_SEARCH "us-west-2" "us-east-2" "us-east-1"
 
 if not [ -d "$HOME/.vim/swaps" ]
-  mkdir "$HOME/.vim/swaps"
+  mkdir -p "$HOME/.vim/swaps"
 end
 
 if not [ -d "$HOME/.vim/backups" ]
-  mkdir "$HOME/.vim/backups"
+  mkdir -p "$HOME/.vim/backups"
 end
 
 # Chromebook linux
