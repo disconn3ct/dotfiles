@@ -1,6 +1,6 @@
-which -s kubectl
+type -q kubectl
 and function k --description "kubectl"
-    if which -s kubecolor 
+    if type -q kubecolor 
     	kubecolor $argv
     else
     	kubectl $argv

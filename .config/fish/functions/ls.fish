@@ -5,11 +5,11 @@ else
 end
 # Only alias for LSD (preferred) or GRC
 begin
-    which -s lsd
+    type -q lsd
     or type -q grc.wrap
 end
 and function ls
-    if which -s lsd
+    if type -q lsd
         # Explicitly use command, not the function defined elsewhere
         command lsd --icon-theme unicode -a $argv
     else
