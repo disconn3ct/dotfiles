@@ -13,6 +13,7 @@ FLUX_VER=0.35.0
 HELM_VER=3.10.0
 ISTIO_VER=1.14.4
 KUBECOLOR_VER=0.0.20
+KUBECTL_VER=stable
 KUBENAV_VER=latest # 3.9.0
 KUSTOMIZE_VER=4.5.5
 SEALEDSECRETS_VER=0.18.5
@@ -69,6 +70,14 @@ function printmsg() {
 
 mkdir -p "${BINDIR}" "${COMPLETIONDIR}" || true
 
+if [ ! -x "${BINDIR}/kubectl" ]; then
+  printmsg "======================="
+  printmsg "Kubectl ${KUBECTL_VER}"
+  fetch-url "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/${KUBECTL_VERSION}.txt)/bin/linux/${LARCH}/kubectl" >"${BINDIR}/kubectl" && chmod +x "${BINDIR}/kubectl"
+  if [ ! -f "${COMPLETIONDIR}/kubectl.fish" ]; then
+    "${BINDIR}/kubectl" completion fish >"${COMPLETIONDIR}/kubectl.fish"
+  fi
+fi
 if [ ! -x "${BINDIR}/kubecolor" ]; then
   printmsg "======================="
   printmsg "Kubecolor ${KUBECOLOR_VER}"
@@ -120,10 +129,6 @@ if [ ! -x "${BINDIR}/kustomize" ]; then
     "${BINDIR}/kustomize" completion fish >"${COMPLETIONDIR}/kustomize.fish"
   fi
   printmsg "======================="
-fi
-if [ ! -x "${BINDIR}/kubenav" ]; then
-  printmsg "Kubenav ${KUBENAV_VER}"
-  fetch-unzip "https://github.com/kubenav/kubenav/releases/latest/download/kubenav-linux-${LARCH}.zip" "${BINDIR}/kubenav"
 fi
 if [ ! -x "${BINDIR}/gitops" ]; then
   printmsg "======================="
