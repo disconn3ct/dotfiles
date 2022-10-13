@@ -14,7 +14,6 @@ HELM_VER=3.10.0
 ISTIO_VER=1.14.4
 KUBECOLOR_VER=0.0.20
 KUBECTL_VER=stable
-KUBENAV_VER=latest # 3.9.0
 KUSTOMIZE_VER=4.5.5
 SEALEDSECRETS_VER=0.18.5
 TERRAFORM_VER=1.3.2
@@ -73,7 +72,7 @@ mkdir -p "${BINDIR}" "${COMPLETIONDIR}" || true
 if [ ! -x "${BINDIR}/kubectl" ]; then
   printmsg "======================="
   printmsg "Kubectl ${KUBECTL_VER}"
-  fetch-url "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/${KUBECTL_VERSION}.txt)/bin/linux/${LARCH}/kubectl" >"${BINDIR}/kubectl" && chmod +x "${BINDIR}/kubectl"
+  fetch-url "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/${KUBECTL_VER}.txt)/bin/linux/${LARCH}/kubectl" >"${BINDIR}/kubectl" && chmod +x "${BINDIR}/kubectl"
   if [ ! -f "${COMPLETIONDIR}/kubectl.fish" ]; then
     "${BINDIR}/kubectl" completion fish >"${COMPLETIONDIR}/kubectl.fish"
   fi
