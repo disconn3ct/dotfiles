@@ -14,7 +14,7 @@ set -g theme_nerd_fonts yes
 set -g LSB_SYSTEM (uname -s)
 
 # exclude ls, df
-set -g grc_plugin_execs cat cvs df diff dig gcc g++ ifconfig ls make mount mtr netstat ping ps tail traceroute wdiff
+set -g grc_plugin_ignore_execs ls df
 
 # For the AWS functions
 set -g AWS_REGION_SEARCH "us-west-2" "us-east-2" "us-east-1"
