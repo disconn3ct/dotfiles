@@ -124,6 +124,9 @@ au BufRead,BufNewFile nginx.conf set ft=nginx
 
 filetype plugin indent on
 
+" For vim-gitgutter (suggests 100, 4000ms default)
+set updatetime=250
+
 call plug#begin()
 " The default plugin directory will be as follows:
 "   - Vim (Linux/macOS): '~/.vim/plugged'
@@ -163,16 +166,21 @@ call plug#begin()
 " Unmanaged plugin (manually installed and updated)
 " Plug '~/my-prototype-plugin'
 
-Plug 'vim-syntastic/syntastic'
-Plug 'godlygeek/tabular'
-Plug 'ntpeters/vim-better-whitespace'
+Plug 'airblade/vim-gitgutter'
 Plug 'dag/vim-fish'
+Plug 'godlygeek/tabular'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'tpope/vim-commentary', {'tag': 'v1.3'}
 Plug 'tpope/vim-fugitive', {'tag': 'v3.7'}
 Plug 'tpope/vim-sensible', {'tag': 'v1.2'}
-Plug 'tpope/vim-commentary', {'tag': 'v1.3'}
+Plug 'vim-syntastic/syntastic'
+Plug 'yggdroot/indentLine'
+
 " Initialize plugin system
 " - Automatically executes `filetype plugin indent on` and `syntax enable`.
 call plug#end()
 " You can revert the settings after the call like so:
 "   filetype indent off   " Disable file-type-specific indentation
 "   syntax off            " Disable syntax highlighting
+

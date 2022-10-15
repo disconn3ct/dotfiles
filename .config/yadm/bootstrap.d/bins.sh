@@ -4,8 +4,6 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-git submodule update --init
-
 ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
 CODER_VER=0.9.5
@@ -19,6 +17,7 @@ SEALEDSECRETS_VER=0.18.5
 TERRAFORM_VER=1.3.2
 TERRAGRUNT_VER=latest
 WEAVE_VER=latest # 0.9.6
+YADM_VER=3.2.1
 
 # Housekeeping:
 BINDIR="${HOME}/bin"
@@ -41,6 +40,12 @@ function fetch-url() {
 function untar() {
   # untar $HOME/bin ./file-here
   tar xC "${1}" "${2}"
+}
+
+function fetch-script() {
+  # fetch-script https://raw.bin.io/binary/main/raw/binary-linux $HOME/bin/binary
+  fetch-url "${1}" > "${2}" 
+  chmod +x "${2}"
 }
 
 function fetch-ungz() {
@@ -69,10 +74,16 @@ function printmsg() {
 
 mkdir -p "${BINDIR}" "${COMPLETIONDIR}" || true
 
+if [ ! -x "${BINDIR}/yadm" -a -z "$(which yadm)" ]; then
+  printmsg "======================="
+  printmsg "YADM ${YADM_VER}"
+  fetch-script https://github.com/TheLocehiliosan/yadm/raw/${YADM_VER}/yadm "${BINDIR}/yadm"
+fi
+
 if [ ! -x "${BINDIR}/kubectl" ]; then
   printmsg "======================="
   printmsg "Kubectl ${KUBECTL_VER}"
-  fetch-url "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/${KUBECTL_VER}.txt)/bin/linux/${LARCH}/kubectl" >"${BINDIR}/kubectl" && chmod +x "${BINDIR}/kubectl"
+  fetch-script "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/${KUBECTL_VER}.txt)/bin/linux/${LARCH}/kubectl" "${BINDIR}/kubectl"
   if [ ! -f "${COMPLETIONDIR}/kubectl.fish" ]; then
     "${BINDIR}/kubectl" completion fish >"${COMPLETIONDIR}/kubectl.fish"
   fi
@@ -85,7 +96,7 @@ fi
 if [ ! -x "${BINDIR}/argocd" ]; then
   printmsg "======================="
   printmsg "ArgoCD ${ARGOCD_VER}"
-  fetch-url "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-${LARCH}" >"${BINDIR}/argocd" && chmod +x "${BINDIR}/argocd"
+  fetch-script "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-${LARCH}" "${BINDIR}/argocd"
 fi
 if [ ! -x "${BINDIR}/argo" ]; then
   printmsg "Argo Workflows ${ARGOWF_VER}"
@@ -102,9 +113,14 @@ fi
 if [ ! -x "${BINDIR}/coder" ]; then
   printmsg "======================="
   printmsg "Coder ${CODER_VER}"
-  fetch-untgz "https://github.com/coder/coder/releases/download/v${CODER_VER}/coder_${CODER_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" ./coder
-  if [ ! -f "${COMPLETIONDIR}/coder" ]; then
-    "${BINDIR}/coder" completion fish >"${COMPLETIONDIR}/coder.fish"
+  if [ -x "/tmp/coder.??????/coder" ]; then
+    printmsg "Coder detected in /tmp instead."
+    cp /tmp/coder.??????/coder "${BINDIR}"
+  else
+    fetch-untgz "https://github.com/coder/coder/releases/download/v${CODER_VER}/coder_${CODER_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" ./coder
+    if [ ! -f "${COMPLETIONDIR}/coder" ]; then
+        "${BINDIR}/coder" completion fish >"${COMPLETIONDIR}/coder.fish"
+    fi
   fi
 fi
 if [ ! -x "${BINDIR}/kubeseal" ]; then
@@ -127,7 +143,6 @@ if [ ! -x "${BINDIR}/kustomize" ]; then
   if [ ! -f "${COMPLETIONDIR}/kustomize" ]; then
     "${BINDIR}/kustomize" completion fish >"${COMPLETIONDIR}/kustomize.fish"
   fi
-  printmsg "======================="
 fi
 if [ ! -x "${BINDIR}/gitops" ]; then
   printmsg "======================="
@@ -157,5 +172,3 @@ if [ ! -x "${BINDIR}/helm" ]; then
     "${BINDIR}/helm" completion fish >"${COMPLETIONDIR}/helm.fish"
   fi
 fi
-
-./update.sh -f
