@@ -10,7 +10,7 @@ CODER_VER=0.9.5
 FLUX_VER=0.35.0
 HELM_VER=3.10.0
 ISTIO_VER=1.14.4
-KUBECOLOR_VER=0.0.20
+KUBECOLOR_VER=0.0.21
 KUBECTL_VER=stable
 KUSTOMIZE_VER=4.5.5
 SEALEDSECRETS_VER=0.18.5
@@ -91,8 +91,9 @@ fi
 if [ ! -x "${BINDIR}/kubecolor" ]; then
   printmsg "======================="
   printmsg "Kubecolor ${KUBECOLOR_VER}"
-  fetch-untgz "https://github.com/hidetatz/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
+  fetch-untgz "https://github.com/kubecolor/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
 fi
+
 if [ ! -x "${BINDIR}/argocd" ]; then
   printmsg "======================="
   printmsg "ArgoCD ${ARGOCD_VER}"
