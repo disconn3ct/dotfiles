@@ -10,6 +10,8 @@ CODER_VER=0.9.5
 FLUX_VER=0.35.0
 HELM_VER=3.10.0
 ISTIO_VER=1.14.4
+KREW_VER=latest
+KREW_PLUGINS="cert-manager ctx evict-pod fuzzy graph konfig ns outdated roll stern view-cert who-can"
 KUBECOLOR_VER=0.0.21
 KUBECTL_VER=stable
 KUSTOMIZE_VER=4.5.5
@@ -120,7 +122,7 @@ if [ ! -x "${BINDIR}/coder" ]; then
   else
     fetch-untgz "https://github.com/coder/coder/releases/download/v${CODER_VER}/coder_${CODER_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" ./coder
     if [ ! -f "${COMPLETIONDIR}/coder" ]; then
-        "${BINDIR}/coder" completion fish >"${COMPLETIONDIR}/coder.fish"
+      "${BINDIR}/coder" completion fish >"${COMPLETIONDIR}/coder.fish"
     fi
   fi
 fi
@@ -173,3 +175,21 @@ if [ ! -x "${BINDIR}/helm" ]; then
     "${BINDIR}/helm" completion fish >"${COMPLETIONDIR}/helm.fish"
   fi
 fi
+
+# If kubectl-krew is listed, it counts as installed.
+("${BINDIR}/kubectl" plugin list 2>/dev/null | grep -q 'kubectl-krew$') || (
+  printmsg "======================="
+  printmsg "Kubectl Krew: ${KREW_VER}"
+  cd "$(mktemp -d)" &&
+    OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+    ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+    KREW="krew-${OS}_${ARCH}" &&
+    curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/${KREW_VER}/download/${KREW}.tar.gz" &&
+    tar zxvf "${KREW}.tar.gz" &&
+    ./"${KREW}" install krew
+)
+
+printmsg "======================="
+printmsg "Kubectl Plugins: ${KREW_PLUGINS}"
+# shellcheck disable=SC2086 # intentional glob
+"${BINDIR}/kubectl" krew install ${KREW_PLUGINS}
