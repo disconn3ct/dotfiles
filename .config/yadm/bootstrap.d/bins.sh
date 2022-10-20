@@ -44,7 +44,7 @@ function untar() {
 
 function fetch-script() {
   # fetch-script https://raw.bin.io/binary/main/raw/binary-linux $HOME/bin/binary
-  fetch-url "${1}" > "${2}" 
+  fetch-url "${1}" >"${2}"
   chmod +x "${2}"
 }
 
@@ -74,7 +74,7 @@ function printmsg() {
 
 mkdir -p "${BINDIR}" "${COMPLETIONDIR}" || true
 
-if [ ! -x "${BINDIR}/yadm" -a -z "$(which yadm)" ]; then
+if [ ! -x "${BINDIR}/yadm" ] && [ -z "$(which yadm)" ]; then
   printmsg "======================="
   printmsg "YADM ${YADM_VER}"
   fetch-script https://github.com/TheLocehiliosan/yadm/raw/${YADM_VER}/yadm "${BINDIR}/yadm"
