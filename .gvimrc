@@ -1,6 +1,4 @@
-" Use the Solarized Dark theme
 set background=dark
-" colorscheme solarized
 colorscheme elflord
 " Use 14pt Monaco
 " set guifont=Monaco:h14

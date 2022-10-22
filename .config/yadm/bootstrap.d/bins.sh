@@ -23,7 +23,7 @@ YADM_VER=3.2.1
 
 # Housekeeping:
 BINDIR="${HOME}/bin"
-COMPLETIONDIR="${HOME}/.config/fish/completion"
+COMPLETIONDIR="${HOME}/.config/fish/completions"
 LARCH=$(dpkg --print-architecture)
 if [ "${LARCH}" == "amd64" ]; then
   ALTARCH="$(uname -m)"
