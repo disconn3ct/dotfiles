@@ -7,6 +7,13 @@
 
 set -eu
 
+# https://github.com/rvalieris/dotfiles/blob/master/.config/yadm/bootstrap
+# via https://github.com/TheLocehiliosan/yadm/issues/93#issuecomment-583595105
+
+# sparse checkout
+yadm gitconfig core.sparseCheckout true
+yadm sparse-checkout set '/*' '!README.md' '!LICENSE-MIT.txt'
+
 # Directory to look for bootstrap executables in
 BOOTSTRAP_D="${BASH_SOURCE[0]}.d"
 
