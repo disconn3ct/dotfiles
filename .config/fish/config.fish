@@ -4,7 +4,7 @@ if status is-interactive
     if not functions -q fisher
         set -q XDG_CONFIG_HOME
         or set XDG_CONFIG_HOME ~/.config
-        curl -sL https://git.io/fisher | source ; and fisher update
+        curl -sL https://git.io/fisher | source && fisher update
     end
 
     set -g theme_color_scheme gruvbox
