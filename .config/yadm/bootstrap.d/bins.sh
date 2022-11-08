@@ -8,6 +8,7 @@ ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
 CODER_VER=0.9.5
 FLUX_VER=0.35.0
+GO_VER=1.19.3
 HELM_VER=3.10.0
 ISTIO_VER=1.14.4
 KREW_VER=latest
@@ -80,6 +81,12 @@ if [ ! -x "${BINDIR}/yadm" ] && [ -z "$(which yadm)" ]; then
   printmsg "======================="
   printmsg "YADM ${YADM_VER}"
   fetch-script https://github.com/TheLocehiliosan/yadm/raw/${YADM_VER}/yadm "${BINDIR}/yadm"
+fi
+
+if [ ! -d "${HOME}/go" ]; then
+  printmsg "======================="
+  printmsg "Go ${GO_VER}"
+  fetch-untgz https://go.dev/dl/go${GO_VER}.linux-${LARCH}.tar.gz "${HOME}" "go/"
 fi
 
 if [ ! -x "${BINDIR}/kubectl" ]; then
