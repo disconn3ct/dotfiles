@@ -6,21 +6,21 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
-CODER_VER=0.9.5
-FLUX_VER=0.37.0
-GO_VER=1.19.3
-HELM_VER=3.10.0
-ISTIO_VER=1.14.4
+CODER_VER=0.15.3
+FLUX_VER=0.38.3
+GO_VER=1.19.5
+HELM_VER=3.11.0
+ISTIO_VER=1.14.6
 KREW_VER=latest
 KREW_PLUGINS="cert-manager ctx evict-pod fuzzy graph konfig ns outdated roll stern view-cert who-can"
 KUBECOLOR_VER=0.0.21
 KUBECTL_VER=stable
-KUSTOMIZE_VER=4.5.5
-SEALEDSECRETS_VER=0.18.5
-TERRAFORM_VER=1.3.2
+KUSTOMIZE_VER=4.5.7
+SEALEDSECRETS_VER=0.19.4
+TERRAFORM_VER=1.3.7
 TERRAGRUNT_VER=latest
 WEAVE_VER=latest # 0.9.6
-YADM_VER=3.2.1
+YADM_VER=3.2.2
 
 # Housekeeping:
 BINDIR="${HOME}/bin"
@@ -159,6 +159,7 @@ if [ ! -x "${BINDIR}/gitops" ]; then
   printmsg "Gitops ${WEAVE_VER}"
   fetch-untgz "https://github.com/weaveworks/weave-gitops/releases/latest/download/gitops-linux-${ALTARCH}.tar.gz" "${BINDIR}" gitops
   if [ ! -f "${COMPLETIONDIR}/gitops" ]; then
+    "${BINDIR}/gitops" set config analytics false
     "${BINDIR}/gitops" completion fish >"${COMPLETIONDIR}/gitops.fish"
   fi
 fi
