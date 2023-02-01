@@ -77,19 +77,20 @@ function printmsg() {
 
 mkdir -p "${BINDIR}" "${COMPLETIONDIR}" || true
 
-if [ ! -x "${BINDIR}/yadm" ] && [ -z "$(which yadm)" ]; then
+if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/yadm" -a -z "$(which yadm)" ]; then
   printmsg "======================="
   printmsg "YADM ${YADM_VER}"
   fetch-script https://github.com/TheLocehiliosan/yadm/raw/${YADM_VER}/yadm "${BINDIR}/yadm"
+  #exec yadm bootstrap
 fi
 
-if [ ! -d "${HOME}/go" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -d "${HOME}/go" ]; then
   printmsg "======================="
   printmsg "Go ${GO_VER}"
   fetch-untgz https://go.dev/dl/go${GO_VER}.linux-${LARCH}.tar.gz "${HOME}" "go/"
 fi
 
-if [ ! -x "${BINDIR}/kubectl" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubectl" ]; then
   printmsg "======================="
   printmsg "Kubectl ${KUBECTL_VER}"
   fetch-script "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/${KUBECTL_VER}.txt)/bin/linux/${LARCH}/kubectl" "${BINDIR}/kubectl"
@@ -97,22 +98,22 @@ if [ ! -x "${BINDIR}/kubectl" ]; then
     "${BINDIR}/kubectl" completion fish >"${COMPLETIONDIR}/kubectl.fish"
   fi
 fi
-if [ ! -x "${BINDIR}/kubecolor" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubecolor" ]; then
   printmsg "======================="
   printmsg "Kubecolor ${KUBECOLOR_VER}"
   fetch-untgz "https://github.com/kubecolor/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
 fi
 
-if [ ! -x "${BINDIR}/argocd" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/argocd" ]; then
   printmsg "======================="
   printmsg "ArgoCD ${ARGOCD_VER}"
   fetch-script "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-${LARCH}" "${BINDIR}/argocd"
 fi
-if [ ! -x "${BINDIR}/argo" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/argo" ]; then
   printmsg "Argo Workflows ${ARGOWF_VER}"
   fetch-unzip "https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-${LARCH}.gz" "${BINDIR}/argo"
 fi
-if [ ! -x "${BINDIR}/flux" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/flux" ]; then
   printmsg "======================="
   printmsg "Flux v${FLUX_VER}"
   fetch-untgz "https://github.com/fluxcd/flux2/releases/download/v${FLUX_VER}/flux_${FLUX_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" flux
@@ -120,7 +121,7 @@ if [ ! -x "${BINDIR}/flux" ]; then
     "${BINDIR}/flux" completion fish >"${COMPLETIONDIR}/flux.fish"
   fi
 fi
-if [ ! -x "${BINDIR}/coder" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/coder" ]; then
   printmsg "======================="
   printmsg "Coder ${CODER_VER}"
   if [ -x "/tmp/coder.??????/coder" ]; then
@@ -133,12 +134,12 @@ if [ ! -x "${BINDIR}/coder" ]; then
     fi
   fi
 fi
-if [ ! -x "${BINDIR}/kubeseal" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubeseal" ]; then
   printmsg "======================="
   printmsg "Kubeseal ${SEALEDSECRETS_VER}"
   fetch-untgz "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${SEALEDSECRETS_VER}/kubeseal-${SEALEDSECRETS_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" kubeseal
 fi
-if [ ! -x "${BINDIR}/istioctl" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/istioctl" ]; then
   printmsg "======================="
   printmsg "Istio ${ISTIO_VER}"
   fetch-untgz "https://github.com/istio/istio/releases/download/${ISTIO_VER}/istioctl-${ISTIO_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" istioctl
@@ -150,42 +151,42 @@ if [ ! -x "${BINDIR}/kustomize" ]; then
   printmsg "======================="
   printmsg "Kustomize ${KUSTOMIZE_VER}"
   fetch-untgz "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VER}/kustomize_v${KUSTOMIZE_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" kustomize
-  if [ ! -f "${COMPLETIONDIR}/kustomize" ]; then
+  if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/kustomize" ]; then
     "${BINDIR}/kustomize" completion fish >"${COMPLETIONDIR}/kustomize.fish"
   fi
 fi
-if [ ! -x "${BINDIR}/gitops" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/gitops" ]; then
   printmsg "======================="
   printmsg "Gitops ${WEAVE_VER}"
   fetch-untgz "https://github.com/weaveworks/weave-gitops/releases/latest/download/gitops-linux-${ALTARCH}.tar.gz" "${BINDIR}" gitops
-  if [ ! -f "${COMPLETIONDIR}/gitops" ]; then
+  if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/gitops" ]; then
     "${BINDIR}/gitops" set config analytics false
     "${BINDIR}/gitops" completion fish >"${COMPLETIONDIR}/gitops.fish"
   fi
 fi
-if [ ! -x "${BINDIR}/terraform" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/terraform" ]; then
   printmsg "======================="
   printmsg "Terraform ${TERRAFORM_VER}"
   fetch-unzip "https://releases.hashicorp.com/terraform/${TERRAFORM_VER}/terraform_${TERRAFORM_VER}_linux_${LARCH}.zip" "${BINDIR}/terraform"
 fi
-if [ ! -x "${BINDIR}/terragrunt" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/terragrunt" ]; then
   printmsg "======================="
   printmsg "Terragrunt ${TERRAGRUNT_VER}"
   fetch-url "https://github.com/gruntwork-io/terragrunt/releases/latest/download/terragrunt_linux_${LARCH}" >"${BINDIR}/terragrunt" && chmod +x "${BINDIR}/terragrunt"
 fi
-if [ ! -x "${BINDIR}/helm" ]; then
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/helm" ]; then
   printmsg "======================="
   # Helm is kinda special. Files are in a subdir.
   printmsg "Helm ${HELM_VER}"
   fetch-untgz "https://get.helm.sh/helm-v${HELM_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" "linux-${LARCH}/helm" &&
     command mv -f "${BINDIR}/linux-${LARCH}/helm" "${BINDIR}/helm" && rmdir "${BINDIR}/linux-${LARCH}"
-  if [ ! -f "${COMPLETIONDIR}/helm" ]; then
+  if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/helm" ]; then
     "${BINDIR}/helm" completion fish >"${COMPLETIONDIR}/helm.fish"
   fi
 fi
 
-# If kubectl-krew is listed, it counts as installed.
-("${BINDIR}/kubectl" plugin list 2>/dev/null | grep -q 'kubectl-krew$') || (
+# If kubectl-$PLUGIN is listed, it counts as installed.
+if [ ${FORCE:-no} == "yes" -o $("${BINDIR}/kubectl" plugin list 2>/dev/null | grep 'kubectl-krew$')x == "kubectl-krewx" ]; then
   printmsg "======================="
   printmsg "Kubectl Krew: ${KREW_VER}"
   cd "$(mktemp -d)" &&
@@ -195,9 +196,13 @@ fi
     curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/${KREW_VER}/download/${KREW}.tar.gz" &&
     tar zxvf "${KREW}.tar.gz" &&
     ./"${KREW}" install krew
-)
+fi
 
-printmsg "======================="
-printmsg "Kubectl Plugins: ${KREW_PLUGINS}"
-# shellcheck disable=SC2086 # intentional glob
-"${BINDIR}/kubectl" krew install ${KREW_PLUGINS}
+for plug in $KREW_PLUGINS; do
+  # This could be run as a single install, but where is the fun in that?
+  if [ ${FORCE:-no} == "yes" -o $("${BINDIR}/kubectl" plugin list 2>/dev/null | grep kubectl-$(echo "${plug}" | sed -e 's/-/_/g')\$)x == "x" ]; then
+    printmsg "======================="
+    printmsg "Kubectl Plugin: ${plug}"
+    "${BINDIR}/kubectl" krew install "${plug}"
+  fi
+done
