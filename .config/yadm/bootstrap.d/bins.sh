@@ -8,6 +8,7 @@ ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
 CODER_VER=0.15.3
 FLUX_VER=0.38.3
+FLUX_ENVSUBST_VER=2.0.0
 GO_VER=1.19.5
 HELM_VER=3.11.0
 ISTIO_VER=1.14.6
@@ -120,6 +121,11 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/flux" ]; then
   if [ ! -f "${COMPLETIONDIR}/flux" ]; then
     "${BINDIR}/flux" completion fish >"${COMPLETIONDIR}/flux.fish"
   fi
+fi
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/flux-envsubst" ]; then
+  printmsg "======================="
+  printmsg "Flux-envsubst v${FLUX_VER}"
+  fetch-untgz "https://github.com/jaconi-io/flux-envsubst/releases/download/v${FLUX_ENVSUBST_VER}/flux-envsubst_${FLUX_ENVSUBST_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" flux-envsubst
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/coder" ]; then
   printmsg "======================="
