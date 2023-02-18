@@ -10,6 +10,7 @@ CODER_VER=0.15.3
 FLUX_VER=0.38.3
 FLUX_ENVSUBST_VER=2.0.0
 GO_VER=1.19.5
+GOTIFY_VER=v2.2.2
 HELM_VER=3.11.0
 ISTIO_VER=1.14.6
 KREW_VER=latest
@@ -169,6 +170,11 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/gitops" ]; then
     "${BINDIR}/gitops" set config analytics false
     "${BINDIR}/gitops" completion fish >"${COMPLETIONDIR}/gitops.fish"
   fi
+fi
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/gotify-cli" ]; then
+  printmsg "======================="
+  printmsg "Gotify ${GOTIFY_VER}"
+  fetch-url "https://github.com/gotify/cli/releases/download/${GOTIFY_VER}/gotify-cli-linux-${LARCH}" >"${BINDIR}/gotify-cli" && chmod +x "${BINDIR}/gotify-cli"
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/terraform" ]; then
   printmsg "======================="
