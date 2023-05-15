@@ -7,7 +7,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
 CODER_VER=0.15.3
-FLUX_VER=0.41.1
+FLUX_VER=2.0.0-rc.1
 FLUX_ENVSUBST_VER=2.0.0
 GO_VER=1.19.5
 GOTIFY_VER=v2.2.2
@@ -15,7 +15,7 @@ HELM_VER=3.11.0
 ISTIO_VER=1.14.6
 KREW_VER=latest
 KREW_PLUGINS="cert-manager ctx evict-pod fuzzy graph konfig ns outdated roll stern view-cert who-can"
-KUBECOLOR_VER=0.0.21
+KUBECOLOR_VER=0.0.21 # Note: moved to a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=4.5.7
 SEALEDSECRETS_VER=0.19.4
@@ -103,7 +103,7 @@ fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubecolor" ]; then
   printmsg "======================="
   printmsg "Kubecolor ${KUBECOLOR_VER}"
-  fetch-untgz "https://github.com/kubecolor/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
+  fetch-untgz "https://github.com/jrpedrianes/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
 fi
 
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/argocd" ]; then
