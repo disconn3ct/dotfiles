@@ -19,7 +19,7 @@ and function ls
         else
             # Something changed. Use raw ls instead.
             if status is-interactive
-                command ls -aF $COLORFLAG $argv
+                command ls -aF --color=auto $argv
             else
                 command ls $argv
             end
