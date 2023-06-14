@@ -18,7 +18,9 @@ KREW_PLUGINS="cert-manager ctx evict-pod fuzzy graph konfig ns outdated roll ste
 KUBECOLOR_VER=0.0.21 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.0.3
+LINKERD_VER=stable-2.13.4
 SEALEDSECRETS_VER=0.21.0
+STEP_VER="0.24.4"
 TERRAFORM_VER=1.4.6
 TERRAGRUNT_VER=latest
 WEAVE_VER=latest # 0.9.6
@@ -145,6 +147,18 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubeseal" ]; then
   printmsg "======================="
   printmsg "Kubeseal ${SEALEDSECRETS_VER}"
   fetch-untgz "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${SEALEDSECRETS_VER}/kubeseal-${SEALEDSECRETS_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" kubeseal
+fi
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/step" ]; then
+  printmsg "======================="
+  printmsg "Step ${STEP_VER}"
+  # NOGIT: fix this mess later
+  fetch-untgz "https://dl.smallstep.com/gh-release/cli/gh-release-header/v${STEP_VER}/step_linux_${STEP_VER}_${LARCH}.tar.gz" "${BINDIR}" step_${STEP_VER}/bin/step && \
+    mv -f "${BINDIR}/step_${STEP_VER}/bin/step" "${BINDIR}/step" && rmdir "${BINDIR}/step_${STEP_VER}/bin" "${BINDIR}/step_${STEP_VER}"
+fi
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/linkerd" ]; then
+  printmsg "======================="
+  printmsg "LinkerD ${LINKERD_VER}"
+  fetch-script "https://github.com/linkerd/linkerd2/releases/download/${LINKERD_VER}/linkerd2-cli-${LINKERD_VER}-linux-${LARCH}" "${BINDIR}/linkerd"
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/istioctl" ]; then
   printmsg "======================="
