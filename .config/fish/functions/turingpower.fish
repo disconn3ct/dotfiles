@@ -1,5 +1,5 @@
 function turingsetpower
-  curl --location --request POST "http://10.0.16.200/api/bmc?opt=set&type=power&$argv" | jq .
+  curl -sSl --request POST "http://10.0.16.200/api/bmc?opt=set&type=power&$argv"
 end
 
 function turingon
@@ -17,5 +17,15 @@ function turingoff
 end
 
 function turingpower
-  curl --location "http://10.0.16.200/api/bmc?opt=get&type=power" | jq .
+  curl -sSl "http://10.0.16.200/api/bmc?opt=get&type=power"
 end
+
+function turingreboot
+  turingpower; or exit
+  turingoff $argv; or exit
+  turingpower; or exit
+  sleep 5; or exit
+  turingon $argv; or exit
+  turingpower; or exit
+end
+
