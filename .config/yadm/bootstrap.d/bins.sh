@@ -6,7 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
-CODER_VER=0.23.7
+CODER_VER=2.1.0
 FLUX_VER=2.0.0
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.19.5
@@ -14,7 +14,7 @@ GOTIFY_VER=v2.2.3
 HELM_VER=3.12.0
 ISTIO_VER=1.14.6
 KREW_VER=latest
-KREW_PLUGINS="cert-manager ctx evict-pod fuzzy graph konfig ns outdated roll stern view-cert who-can"
+KREW_PLUGINS="cert-manager ctx fuzzy graph konfig ns outdated roll stern view-cert who-can"
 KUBECOLOR_VER=0.0.21 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.0.3
@@ -212,7 +212,7 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/helm" ]; then
 fi
 
 # If kubectl-$PLUGIN is listed, it counts as installed.
-if [ ${FORCE:-no} == "yes" -o $("${BINDIR}/kubectl" plugin list 2>/dev/null | grep 'kubectl-krew$')x == "kubectl-krewx" ]; then
+if [ ${FORCE:-no} == "yes" -o $("${BINDIR}/kubectl" plugin list 2>/dev/null | grep 'kubectl-krew$')x == "x" ]; then
   printmsg "======================="
   printmsg "Kubectl Krew: ${KREW_VER}"
   cd "$(mktemp -d)" &&
