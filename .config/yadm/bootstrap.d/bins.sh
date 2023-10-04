@@ -6,7 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
-CODER_VER=2.1.0
+CODER_VER=2.2.0
 FLUX_VER=2.0.0
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.19.5
@@ -18,8 +18,6 @@ KREW_PLUGINS="cert-manager ctx fuzzy graph konfig ns outdated roll stern view-ce
 KUBECOLOR_VER=0.0.21 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.0.3
-LINKERD_VER=stable-2.13.5
-SEALEDSECRETS_VER=0.21.0
 STEP_VER="0.24.4"
 TERRAFORM_VER=1.4.6
 TERRAGRUNT_VER=latest
@@ -143,22 +141,12 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/coder" ]; then
     fi
   fi
 fi
-if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubeseal" ]; then
-  printmsg "======================="
-  printmsg "Kubeseal ${SEALEDSECRETS_VER}"
-  fetch-untgz "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${SEALEDSECRETS_VER}/kubeseal-${SEALEDSECRETS_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" kubeseal
-fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/step" ]; then
   printmsg "======================="
   printmsg "Step ${STEP_VER}"
   # NOGIT: fix this mess later
   fetch-untgz "https://dl.smallstep.com/gh-release/cli/gh-release-header/v${STEP_VER}/step_linux_${STEP_VER}_${LARCH}.tar.gz" "${BINDIR}" step_${STEP_VER}/bin/step && \
     mv -f "${BINDIR}/step_${STEP_VER}/bin/step" "${BINDIR}/step" && rmdir "${BINDIR}/step_${STEP_VER}/bin" "${BINDIR}/step_${STEP_VER}"
-fi
-if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/linkerd" ]; then
-  printmsg "======================="
-  printmsg "LinkerD ${LINKERD_VER}"
-  fetch-script "https://github.com/linkerd/linkerd2/releases/download/${LINKERD_VER}/linkerd2-cli-${LINKERD_VER}-linux-${LARCH}" "${BINDIR}/linkerd"
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/istioctl" ]; then
   printmsg "======================="
