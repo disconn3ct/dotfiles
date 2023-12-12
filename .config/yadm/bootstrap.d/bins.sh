@@ -6,7 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
-CODER_VER=2.2.0
+CODER_VER=2.5.0
 FLUX_VER=2.0.0
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.19.5
