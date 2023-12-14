@@ -7,7 +7,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 ARGOCD_VER=latest # 2.4.14
 ARGOWF_VER=latest # 3.4.1
 CODER_VER=2.5.0
-FLUX_VER=2.0.0
+ENVSUBST_VER=1.4.2
+FLUX_VER=2.2.0
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.19.5
 GOTIFY_VER=v2.2.3
@@ -27,7 +28,7 @@ YADM_VER=3.2.2
 # Housekeeping:
 BINDIR="${HOME}/bin"
 COMPLETIONDIR="${HOME}/.config/fish/completions"
-LARCH=$(dpkg --print-architecture)
+LARCH=amd64
 if [ "${LARCH}" == "amd64" ]; then
   ALTARCH="$(uname -m)"
 else
@@ -168,7 +169,8 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/gitops" ]; then
   printmsg "======================="
   printmsg "Gitops ${WEAVE_VER}"
   fetch-untgz "https://github.com/weaveworks/weave-gitops/releases/latest/download/gitops-linux-${ALTARCH}.tar.gz" "${BINDIR}" gitops
-  if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/gitops" ]; then
+  if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/gitops.fish" ]; then
+    echo "Disabling telemetry."
     "${BINDIR}/gitops" set config analytics false
     "${BINDIR}/gitops" completion fish >"${COMPLETIONDIR}/gitops.fish"
   fi
