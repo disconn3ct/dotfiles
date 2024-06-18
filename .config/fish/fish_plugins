@@ -1,4 +1,3 @@
-jorgebucaran/fisher
 rominf/omf-plugin-autojump
 igalic/anicode
 edc/bass
@@ -16,6 +15,6 @@ joseluisq/gitnow@2.1.1
 danhper/fish-ssh-agent
 oh-my-fish/theme-bobthefish
 jethrokuan/z
-meaningful-ooo/sponge
 paysonwallach/fish-you-should-use
 kidonng/vscode.fish
+oh-my-fish/plugin-battery
