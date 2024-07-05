@@ -4,16 +4,13 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-ARGOCD_VER=latest # 2.4.14
-ARGOWF_VER=latest # 3.4.1
-CODER_VER=2.5.0
+CODER_VER=2.11.0
 ENVSUBST_VER=1.4.2
-FLUX_VER=2.2.0
+FLUX_VER=2.2.3
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.19.5
 GOTIFY_VER=v2.2.3
 HELM_VER=3.12.0
-ISTIO_VER=1.14.6
 KREW_VER=latest
 KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig ns outdated roll stern view-cert who-can"
 KUBECOLOR_VER=0.0.21 # Note: moved to kubecolor/kubecolor, a fork
@@ -107,15 +104,6 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubecolor" ]; then
   fetch-untgz "https://github.com/kubecolor/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
 fi
 
-if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/argocd" ]; then
-  printmsg "======================="
-  printmsg "ArgoCD ${ARGOCD_VER}"
-  fetch-script "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-${LARCH}" "${BINDIR}/argocd"
-fi
-if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/argo" ]; then
-  printmsg "Argo Workflows ${ARGOWF_VER}"
-  fetch-unzip "https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-${LARCH}.gz" "${BINDIR}/argo"
-fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/flux" ]; then
   printmsg "======================="
   printmsg "Flux v${FLUX_VER}"
@@ -148,14 +136,6 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/step" ]; then
   # NOGIT: fix this mess later
   fetch-untgz "https://dl.smallstep.com/gh-release/cli/gh-release-header/v${STEP_VER}/step_linux_${STEP_VER}_${LARCH}.tar.gz" "${BINDIR}" step_${STEP_VER}/bin/step && \
     mv -f "${BINDIR}/step_${STEP_VER}/bin/step" "${BINDIR}/step" && rmdir "${BINDIR}/step_${STEP_VER}/bin" "${BINDIR}/step_${STEP_VER}"
-fi
-if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/istioctl" ]; then
-  printmsg "======================="
-  printmsg "Istio ${ISTIO_VER}"
-  fetch-untgz "https://github.com/istio/istio/releases/download/${ISTIO_VER}/istioctl-${ISTIO_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" istioctl
-  if [ ! -f "${COMPLETIONDIR}/istioctl" ]; then
-    "${BINDIR}/istioctl" completion fish >"${COMPLETIONDIR}/istioctl.fish"
-  fi
 fi
 if [ ! -x "${BINDIR}/kustomize" ]; then
   printmsg "======================="
