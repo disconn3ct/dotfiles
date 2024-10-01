@@ -13,7 +13,7 @@ GOTIFY_VER=v2.2.3
 HELM_VER=3.12.0
 KREW_VER=latest
 KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig ns outdated roll stern view-cert who-can"
-KUBECOLOR_VER=0.0.21 # Note: moved to kubecolor/kubecolor, a fork
+KUBECOLOR_VER=0.4.0 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.0.3
 STEP_VER="0.24.4"
@@ -101,7 +101,7 @@ fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubecolor" ]; then
   printmsg "======================="
   printmsg "Kubecolor ${KUBECOLOR_VER}"
-  fetch-untgz "https://github.com/kubecolor/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_Linux_${ALTARCH}.tar.gz" "${BINDIR}" kubecolor
+  fetch-untgz "https://github.com/kubecolor/kubecolor/releases/download/v${KUBECOLOR_VER}/kubecolor_${KUBECOLOR_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" kubecolor
 fi
 
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/flux" ]; then
