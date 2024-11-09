@@ -4,9 +4,9 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-CODER_VER=2.15.0
+CODER_VER=2.16.0
 ENVSUBST_VER=1.4.2
-FLUX_VER=2.2.3
+FLUX_VER=2.4.0
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.19.5
 GOTIFY_VER=v2.2.3
@@ -16,6 +16,7 @@ KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig ns outdated roll stern vi
 KUBECOLOR_VER=0.4.0 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.0.3
+SEALEDSECRETS_VER=0.27.2
 STEP_VER="0.24.4"
 TERRAFORM_VER=1.4.6
 TERRAGRUNT_VER=latest
@@ -129,6 +130,11 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/coder" ]; then
       "${BINDIR}/coder" completion fish >"${COMPLETIONDIR}/coder.fish"
     fi
   fi
+fi
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kubeseal" ]; then
+    printmsg "======================="
+      printmsg "Kubeseal ${SEALEDSECRETS_VER}"
+        fetch-untgz "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${SEALEDSECRETS_VER}/kubeseal-${SEALEDSECRETS_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" kubeseal
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/step" ]; then
   printmsg "======================="
