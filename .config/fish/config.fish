@@ -4,7 +4,7 @@ if status is-interactive
     if not functions -q fisher
         set -q XDG_CONFIG_HOME
         or set XDG_CONFIG_HOME ~/.config
-        curl -sL https://git.io/fisher | source && fisher update
+        curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher && fisher update
     end
 
     set -g default_user dis
