@@ -1,3 +1,5 @@
+execute pathogen#infect()
+
 " Mouse support
 if has('mouse_sgr')
 	set ttymouse=sgr

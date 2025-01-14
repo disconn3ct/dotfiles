@@ -1,5 +1,5 @@
 type -q kubectl
-and function k --description "kubectl"
+and function k --description "kubectl" --wraps kubectl
     if type -q kubecolor 
     	kubecolor $argv
     else
