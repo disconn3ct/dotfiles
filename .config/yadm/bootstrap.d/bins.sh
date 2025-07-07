@@ -4,7 +4,7 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-CODER_VER=2.18.0
+CODER_VER=2.24.1
 ENVSUBST_VER=1.4.2
 FLUX_VER=2.4.0
 FLUX_ENVSUBST_VER=2.0.13
