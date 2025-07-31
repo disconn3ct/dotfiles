@@ -22,6 +22,7 @@ TERRAFORM_VER=1.4.6
 TERRAGRUNT_VER=latest
 WEAVE_VER=latest # 0.9.6
 YADM_VER=3.2.2
+YQ_VER="v4.47.1"
 
 # Housekeeping:
 BINDIR="${HOME}/bin"
@@ -185,6 +186,11 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/helm" ]; then
   if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/helm" ]; then
     "${BINDIR}/helm" completion fish >"${COMPLETIONDIR}/helm.fish"
   fi
+fi
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/yq" ]; then
+  printmsg "======================="
+  printmsg "yq ${YQ_VER}"
+  fetch-url "https://github.com/mikefarah/yq/releases/download/${YQ_VER}/yq_linux_${LARCH}" >"${BINDIR}/yq" && chmod +x "${BINDIR}/yq"
 fi
 
 # If kubectl-$PLUGIN is listed, it counts as installed.
