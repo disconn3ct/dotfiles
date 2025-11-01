@@ -6,7 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 CODER_VER=2.25.1
 ENVSUBST_VER=1.4.2
-FLUX_VER=2.4.0
+FLUX_VER=2.7.3
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.19.5
 GOTIFY_VER=v2.2.3
@@ -20,6 +20,7 @@ SEALEDSECRETS_VER=0.27.2
 STEP_VER="0.24.4"
 TERRAFORM_VER=1.4.6
 TERRAGRUNT_VER=latest
+VELERO_VER="v1.17.0"
 WEAVE_VER=latest # 0.9.6
 YADM_VER=3.2.2
 YQ_VER="v4.47.1"
@@ -150,6 +151,15 @@ if [ ! -x "${BINDIR}/kustomize" ]; then
   fetch-untgz "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VER}/kustomize_v${KUSTOMIZE_VER}_linux_${LARCH}.tar.gz" "${BINDIR}" kustomize
   if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/kustomize" ]; then
     "${BINDIR}/kustomize" completion fish >"${COMPLETIONDIR}/kustomize.fish"
+  fi
+fi
+if [ ! -x "${BINDIR}/velero" ]; then
+  printmsg "======================="
+  printmsg "Velero ${VELERO_VER}"
+  fetch-untgz "https://github.com/vmware-tanzu/velero/releases/download/${VELERO_VER}/velero-${VELERO_VER}-linux-${LARCH}.tar.gz" "${BINDIR}" "velero-${VELERO_VER}-linux-amd64/velero" && \
+    command mv -f "${BINDIR}/velero-${VELERO_VER}-linux-${LARCH}/velero" "${BINDIR}" && rmdir "${BINDIR}/velero-${VELERO_VER}-linux-${LARCH}"
+  if [ ${FORCE:-no} == "yes" -o ! -f "${COMPLETIONDIR}/velero" ]; then
+    "${BINDIR}/velero" completion fish >"${COMPLETIONDIR}/velero.fish"
   fi
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/gitops" ]; then
