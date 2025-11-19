@@ -3,21 +3,22 @@
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
-
-CODER_VER=2.25.1
+CILIUM_VER="v0.18.8"
+CODER_VER=2.28.3
 ENVSUBST_VER=1.4.2
 FLUX_VER=2.7.3
 FLUX_ENVSUBST_VER=2.0.13
-GO_VER=1.19.5
+GO_VER=1.25.4
 GOTIFY_VER=v2.2.3
 HELM_VER=3.12.0
 KREW_VER=latest
-KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig ns outdated roll stern view-cert who-can"
+KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig node-resource ns outdated roll stern view-cert who-can"
 KUBECOLOR_VER=0.4.0 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.0.3
 SEALEDSECRETS_VER=0.27.2
 STEP_VER="0.24.4"
+TALOSCTL_VER="v1.11.5"
 TERRAFORM_VER=1.4.6
 TERRAGRUNT_VER=latest
 VELERO_VER="v1.17.0"
@@ -87,9 +88,15 @@ if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/yadm" -a -z "$(which yadm)" ];
   #exec yadm bootstrap
 fi
 
+if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/cilium" -a -z "$(which cilium)" ]; then
+  printmsg "======================="
+  printmsg "Cilium ${CILIUM_VER}"
+  fetch-untgz "https://github.com/cilium/cilium-cli/releases/download/${CILIUM_VER}/cilium-linux-${LARCH}.tar.gz" "${BINDIR}" "cilium" && chmod +x "${BINDIR}/cilium"
+fi
 if [ ${FORCE:-no} == "yes" -o ! -d "${HOME}/go" ]; then
   printmsg "======================="
   printmsg "Go ${GO_VER}"
+  rm -rf "${HOME}/go" || true
   fetch-untgz https://go.dev/dl/go${GO_VER}.linux-${LARCH}.tar.gz "${HOME}" "go/"
 fi
 
@@ -175,7 +182,15 @@ fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/gotify-cli" ]; then
   printmsg "======================="
   printmsg "Gotify ${GOTIFY_VER}"
-  fetch-url "https://github.com/gotify/cli/releases/download/${GOTIFY_VER}/gotify-cli-linux-${LARCH}" >"${BINDIR}/gotify-cli" && chmod +x "${BINDIR}/gotify-cli"
+  fetch-script "https://github.com/gotify/cli/releases/download/${GOTIFY_VER}/gotify-cli-linux-${LARCH}" "${BINDIR}/gotify-cli"
+fi
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/talosctl" ]; then
+  printmsg "======================="
+  printmsg "Talosctl ${TALOSCTL_VER}"
+  fetch-script "https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VER}/talosctl-linux-${LARCH}" "${BINDIR}/talosctl"
+  if [ ! -f "${COMPLETIONDIR}/talosctl.fish" ]; then
+    "${BINDIR}/talosctl" completion fish >"${COMPLETIONDIR}/talosctl.fish"
+  fi
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/terraform" ]; then
   printmsg "======================="
@@ -185,7 +200,7 @@ fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/terragrunt" ]; then
   printmsg "======================="
   printmsg "Terragrunt ${TERRAGRUNT_VER}"
-  fetch-url "https://github.com/gruntwork-io/terragrunt/releases/latest/download/terragrunt_linux_${LARCH}" >"${BINDIR}/terragrunt" && chmod +x "${BINDIR}/terragrunt"
+  fetch-script "https://github.com/gruntwork-io/terragrunt/releases/latest/download/terragrunt_linux_${LARCH}" "${BINDIR}/terragrunt"
 fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/helm" ]; then
   printmsg "======================="
@@ -200,7 +215,7 @@ fi
 if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/yq" ]; then
   printmsg "======================="
   printmsg "yq ${YQ_VER}"
-  fetch-url "https://github.com/mikefarah/yq/releases/download/${YQ_VER}/yq_linux_${LARCH}" >"${BINDIR}/yq" && chmod +x "${BINDIR}/yq"
+  fetch-script "https://github.com/mikefarah/yq/releases/download/${YQ_VER}/yq_linux_${LARCH}" "${BINDIR}/yq"
 fi
 
 # If kubectl-$PLUGIN is listed, it counts as installed.
