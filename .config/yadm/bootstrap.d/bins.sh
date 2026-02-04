@@ -6,13 +6,13 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 CILIUM_VER="v0.18.8"
 CODER_VER=2.28.3
 ENVSUBST_VER=1.4.2
-FLUX_VER=2.7.3
+FLUX_VER=2.7.5
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.25.4
 GOTIFY_VER=v2.2.3
 HELM_VER=3.12.0
 KREW_VER=latest
-KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig node-resource ns outdated roll stern view-cert who-can"
+KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig node-resource ns outdated roll stern view-cert view-secret who-can"
 KUBECOLOR_VER=0.4.0 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.0.3
