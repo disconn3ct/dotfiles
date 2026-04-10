@@ -3,14 +3,17 @@
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
+BACKBLAZE_VER="v4.6.0"
 CILIUM_VER="v0.18.8"
 CODER_VER=2.30.0
 ENVSUBST_VER=1.4.2
-FLUX_VER=2.7.5
+FLUX_VER=2.8.0
 FLUX_ENVSUBST_VER=2.0.13
 GO_VER=1.25.4
 GOTIFY_VER=v2.2.3
-HELM_VER=3.12.0
+HELM_VER=4.1.4
+HCLOUD_VER=v1.61.0
+HETZNER_K3S_VER=v2.4.6
 KREW_VER=latest
 KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig node-resource ns outdated roll stern view-cert view-secret who-can"
 KUBECOLOR_VER=0.4.0 # Note: moved to kubecolor/kubecolor, a fork
@@ -86,6 +89,12 @@ if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/yadm" -a -z "$(which yadm)" ];
   printmsg "YADM ${YADM_VER}"
   fetch-script https://github.com/TheLocehiliosan/yadm/raw/${YADM_VER}/yadm "${BINDIR}/yadm"
   #exec yadm bootstrap
+fi
+
+if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/b2" -a -z "$(which b2)" ]; then
+  printmsg "======================="
+  printmsg "BackBlaze ${BACKBLAZE_VER}"
+  fetch-script "https://github.com/backblaze/b2_command_line_tool/releases/download/${BACKBLAZE_VER}/b2-linux" "${BINDIR}/b2"
 fi
 
 if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/cilium" -a -z "$(which cilium)" ]; then
@@ -216,6 +225,21 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/yq" ]; then
   printmsg "======================="
   printmsg "yq ${YQ_VER}"
   fetch-script "https://github.com/mikefarah/yq/releases/download/${YQ_VER}/yq_linux_${LARCH}" "${BINDIR}/yq"
+fi
+
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/hcloud" ]; then
+  printmsg "======================="
+  printmsg "Hetzner cloud CLI ${HCLOUD_VER}"
+  fetch-untgz "https://github.com/hetznercloud/cli/releases/download/${HCLOUD_VER}/hcloud-linux-${LARCH}.tar.gz" "${BINDIR}" "hcloud"
+  if [ ! -f "${COMPLETIONDIR}/hcloud.fish" ]; then
+    "${BINDIR}/hcloud" completion fish >"${COMPLETIONDIR}/hcloud.fish"
+  fi
+fi
+
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/hetzner-k3s" ]; then
+  printmsg "======================="
+  printmsg "Hetzner K3s ${HETZNER_K3S_VER}"
+  fetch-script "https://github.com/vitobotta/hetzner-k3s/releases/download/${HETZNER_K3S_VER}/hetzner-k3s-linux-amd64" "${BINDIR}/hetzner-k3s"
 fi
 
 # If kubectl-$PLUGIN is listed, it counts as installed.
