@@ -31,4 +31,5 @@ if status is-interactive
     if [ "$hostname" = penguin ]
         xhost +local:all
     end
+    set -q KREW_ROOT; and set -gx PATH $PATH $KREW_ROOT/.krew/bin; or set -gx PATH $PATH $HOME/.krew/bin
 end
