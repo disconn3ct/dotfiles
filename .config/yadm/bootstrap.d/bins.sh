@@ -15,7 +15,7 @@ HELM_VER=4.2.2
 HCLOUD_VER=v1.66.0
 HETZNER_K3S_VER=v2.6.0
 KREW_VER=latest
-KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig node-resource ns outdated roll stern view-cert view-secret who-can"
+KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig node-resource ns outdated pvu roll stern view-cert view-secret who-can"
 KUBECOLOR_VER=0.6.0 # Note: moved to kubecolor/kubecolor, a fork
 KUBECTL_VER=stable
 KUSTOMIZE_VER=5.8.1
@@ -252,3 +252,6 @@ for plug in $KREW_PLUGINS; do
     "${BINDIR}/kubectl" krew install "${plug}"
   fi
 done
+
+${BINDIR}/kubectl krew upgrade
+
