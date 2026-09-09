@@ -4,10 +4,10 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 BACKBLAZE_VER="v4.7.1"
-BITWARDEN_VER="2026.6.0"
+BITWARDEN_VER="2026.8.0"
 CILIUM_VER="v0.19.5"
 CODER_VER=2.37.1
-FLUX_VER=2.9.0
+FLUX_VER=2.9.3
 FLUX_ENVSUBST_VER=4.0.32
 GO_VER=1.26.4
 GOTIFY_VER=v2.3.2
@@ -98,10 +98,10 @@ if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/b2" -a -z "$(which b2)" ]; the
   printmsg "BackBlaze ${BACKBLAZE_VER}"
   fetch-script "https://github.com/backblaze/b2_command_line_tool/releases/download/${BACKBLAZE_VER}/b2-linux" "${BINDIR}/b2"
 fi
-if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/bw" -a -z "$(which bw)" ]; then
+if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/bw" ]; then
   printmsg "======================="
   printmsg "Bitwarden ${BITWARDEN_VER}"
-  fetch-unzip "https://github.com/bitwarden/clients/releases/download/cli-v2026.6.0/bw-oss-linux${OPTARCH}-2026.6.0.zip" "${BINDIR}/bw" && chmod +x "${BINDIR}/bw"
+  fetch-unzip "https://github.com/bitwarden/clients/releases/download/cli-v${BITWARDEN_VER}/bw-oss-linux${OPTARCH}-${BITWARDEN_VER}.zip" "${BINDIR}/bw" && chmod +x "${BINDIR}/bw"
 fi
 if [ ${FORCE:-no} == "yes" ] || [ ! -x "${BINDIR}/cilium" -a -z "$(which cilium)" ]; then
   printmsg "======================="
