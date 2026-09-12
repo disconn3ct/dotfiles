@@ -14,6 +14,7 @@ GOTIFY_VER=v2.3.2
 HELM_VER=4.2.2
 HCLOUD_VER=v1.66.0
 HETZNER_K3S_VER=v2.6.0
+KOMPOSE_VER=v1.38.0
 KREW_VER=latest
 KREW_PLUGINS="cert-manager cnpg ctx fuzzy graph konfig node-resource ns outdated pvu roll stern view-cert view-secret who-can"
 KUBECOLOR_VER=0.6.0 # Note: moved to kubecolor/kubecolor, a fork
@@ -229,6 +230,13 @@ if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/hetzner-k3s" ]; then
   printmsg "======================="
   printmsg "Hetzner K3s ${HETZNER_K3S_VER}"
   fetch-script "https://github.com/vitobotta/hetzner-k3s/releases/download/${HETZNER_K3S_VER}/hetzner-k3s-linux-amd64" "${BINDIR}/hetzner-k3s"
+fi
+
+if [ ${FORCE:-no} == "yes" -o ! -x "${BINDIR}/kompose" ]; then
+  printmsg "======================="
+  printmsg "Kompose: ${KOMPOSE_VER}"
+  fetch-script "https://github.com/kubernetes/kompose/releases/download/${KOMPOSE_VER}/kompose-linux-${LARCH}" "${BINDIR}/kompose"
+  "${BINDIR}/kompose" completion fish >"${COMPLETIONDIR}/kompose.fish"
 fi
 
 # If kubectl-$PLUGIN is listed, it counts as installed.
